@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 
-export default function ProductCard({ id, name, price, imageUrl, onAddToCart }) {
+export default function ProductCard({ id, title, price, imageUrl,description, onAddToCart }) {
   const [selectedSize, setSelectedSize] = useState('');
 
   const handleAddToCart = () => {
@@ -14,7 +14,7 @@ export default function ProductCard({ id, name, price, imageUrl, onAddToCart }) 
     if (onAddToCart) {
       onAddToCart({
         id,
-        name,
+        title,
         price,
         imageUrl,
         size: selectedSize,
@@ -27,7 +27,7 @@ export default function ProductCard({ id, name, price, imageUrl, onAddToCart }) 
       <div className="relative w-full h-60">
         <Image
           src={imageUrl}
-          alt={name}
+          alt={title}
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 33vw"
@@ -35,8 +35,9 @@ export default function ProductCard({ id, name, price, imageUrl, onAddToCart }) 
       </div>
 
       <div className="p-4">
-        <h3 className="text-lg font-semibold text-gray-800">{name}</h3>
-        <p className="text-pink-600 font-bold mt-1">${price.toFixed(2)}</p>
+        <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+        <p className="text-pink-600 font-bold mt-1">${price}</p>
+        <p className="text-pink-600 font-bold mt-1">description:{description}</p>
 
         <select
           value={selectedSize}
