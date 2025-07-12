@@ -1,11 +1,9 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+'use client'; // 👈 Important for App Router
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { initializeApp, getApps } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
+// Your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCfzY03XixRu86o8JraSFuwr9T_YUVzuV4",
   authDomain: "brabliss-web.firebaseapp.com",
@@ -16,6 +14,17 @@ const firebaseConfig = {
   measurementId: "G-1TV78SLN7C"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// Prevent re-initialization during Fast Refresh / HMR
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+
+// Auth is safe for SSR
+const auth = getAuth(app);
+
+// 👇 Optional: Load analytics only in browser
+if (typeof window !== 'undefined') {
+  import("firebase/analytics").then(({ getAnalytics }) => {
+    getAnalytics(app);
+  });
+}
+
+export { auth };

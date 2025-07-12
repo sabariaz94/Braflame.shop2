@@ -22,6 +22,7 @@ import { FiUsers } from 'react-icons/fi';
 // import { auth, signOut } from '@/firebase/FirebaseConfig.js';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import AdminOrdersPage from '@/app/(pages)/admin/orders/page';
 
 // Navigation without type annotations
 const NAVIGATION = [
@@ -65,7 +66,7 @@ function DemoPageContent({ pathname }) {
       case '/products':
         return <AddProduct />;
       case '/orders':
-        return <AddProduct />;
+        return <AdminOrdersPage />;
       case '/dashboard':
         return <AddProduct />;
       case '/quoteRequests':

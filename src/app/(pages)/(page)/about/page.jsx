@@ -2,7 +2,8 @@
 
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-
+import Image from "next/image";
+import Link from "next/link";
 
 export default function AboutPage() {
   return (
@@ -29,11 +30,15 @@ export default function AboutPage() {
               From seamless everyday bras to luxurious lace pieces, each design is made with love and purpose. We’re more than lingerie — we’re a movement of self-love and comfort-first fashion.
             </p>
           </div>
-          <img
-            src="/images/about-us.jpg"
-            alt="BraBliss Women Empowerment"
-            className="rounded-2xl shadow-md border border-pink-100"
-          />
+          <div className="w-full h-[300px] md:h-[400px] relative rounded-2xl shadow-md border border-pink-100 overflow-hidden">
+            <Image
+              src="/assets/imgs/about.jpg"
+              alt="BraBliss Women Empowerment"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
         </section>
 
         {/* What Makes Us Different */}
@@ -61,12 +66,12 @@ export default function AboutPage() {
           <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
             Whether you're shopping for your first perfect fit or expanding your wardrobe with comfort-focused pieces — we're here for you every step of the way.
           </p>
-          <a
+          <Link
             href="/shop"
             className="inline-block bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-full font-semibold transition"
           >
             Explore Our Collection
-          </a>
+          </Link>
         </section>
       </main>
 
@@ -74,4 +79,3 @@ export default function AboutPage() {
     </>
   );
 }
-

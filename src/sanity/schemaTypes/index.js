@@ -1,8 +1,9 @@
+import orders from "./orders";
 import product from "./product";
 
 export const schema = {
 
-  types: [product],
+  types: [product,orders ],
 }
 
 
