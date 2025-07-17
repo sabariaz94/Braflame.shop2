@@ -9,302 +9,98 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
-import Image from "next/image";
-import Link from "next/link";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-// import CartIcon from "./CartIcon";
+import Image from "next/image";
+import Link from "next/link";
 import { getAuth, signOut } from "firebase/auth";
 import { useCart } from "@/context/CartContext";
 
-// const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
-
-function Navbar() {
+const Navbar = () => {
   const { cartItems } = useCart();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
   const logout = () => {
     const auth = getAuth();
     signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-
-        console.log("signout hogya");
-      })
-      .catch((error) => {
-        // An error happened.
-        console.log("error hogya", error);
-      });
+      .then(() => console.log("Signed out successfully"))
+      .catch((error) => console.error("Sign-out error:", error));
   };
 
+  const navLinks = [
+    { name: "Home", href: "/home" },
+    { name: "Products", href: "/products" },
+    { name: "About Us", href: "/about" },
+    { name: "Contact Us", href: "/contact" },
+  ];
+
   return (
-    <AppBar
-      position="static"
-      style={{ backgroundColor: "white", color: "#db2777", width: "100%" }}
-    >
+    <AppBar position="static" sx={{ backgroundColor: "white", color: "#db2777" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* <AdbIcon  sx={{  display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
-          <Link
-            href="/"
-            className="text-2xl font-bold tracking-tight text-pink-600 hover:opacity-90"
-          >
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="#app-bar-with-responsive-menu"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none",
-              }}
-            >
-              
-              <Image
-              src="/assets/imgs/logo1.png" // Path to your image
-              alt="Description of your image"
-              width={100}
-              height={100}
-            />
-            </Typography>
+          {/* Logo Desktop */}
+          <Link href="/" className="hidden md:flex items-center mr-4">
+            <Image src="/assets/imgs/logo1.png" alt="Logo" width={100} height={100} />
           </Link>
+
+          {/* Mobile Menu Icon */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
+            <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
+              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+              transformOrigin={{ vertical: "top", horizontal: "left" }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: "block", md: "none" } }}
             >
-              {/* {pages.map((page) => ( */}
-              <MenuItem onClick={handleCloseNavMenu}>
-                <ul className="flex flex-col justify-center gap-2 items-center text-xl ">
-                  <li>
-                    <Link
-                      prefetch={true}
-                      className="hover:border-b-2 border-[#9d174d]"
-                      href="/home"
-                    >
-                      {" "}
-                      Home
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      prefetch={true}
-                      className="hover:border-b-2 border-[#9d174d]"
-                      href="/products"
-                    >
-                      {" "}
-                      Products
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="hover:border-b-2 border-[#9d174d]"
-                      href="/about"
-                      prefetch={true}
-                    >
-                      {" "}
-                      About Us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      prefetch={true}
-                      className="hover:border-b-2 border-[#9d174d]"
-                      href="/contact"
-                    >
-                      {" "}
-                      Contact Us
-                    </Link>
-                  </li>
-                </ul>
-
-                {/* <Typography sx={{ textAlign: "center" }}>{page}</Typography> */}
-              </MenuItem>
-              {/* ))} */}
+              {navLinks.map((link) => (
+                <MenuItem key={link.name} onClick={handleCloseNavMenu}>
+                  <Link href={link.href} className="text-lg text-pink-600 hover:underline">
+                    {link.name}
+                  </Link>
+                </MenuItem>
+              ))}
             </Menu>
           </Box>
-          {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
-           <Link
-            href="/"
-            className="text-2xl font-bold tracking-tight text-pink-600 hover:opacity-90"
-          >
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/home"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-           
-            <Image
-              src="/assets/imgs/logo1.png" // Path to your image
-              alt="Description of your image"
-              width={100}
-              height={100}
-            />
-          </Typography>
+
+          {/* Logo Mobile */}
+          <Link href="/" className="flex md:hidden items-center mr-4">
+            <Image src="/assets/imgs/logo1.png" alt="Logo" width={80} height={80} />
           </Link>
+
+          {/* Desktop Nav Links */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <div
-              className="flex justify-center items-center pt-2 text-[18 px] gap-2"
-              sx={{ my: 2, color: "black", display: "block" }}
-            >
-              {/* Web View  */}
-              <ul className="flex justify-center gap-4 items-center text-xl ">
-                <li>
+            <ul className="flex gap-6 items-center">
+              {navLinks.map((link) => (
+                <li key={link.name}>
                   <Link
-                    className="hover:border-b-2 border-[#9d174d]"
-                    href="/home"
-                    prefetch={true}
+                    href={link.href}
+                    className="text-lg text-pink-600 hover:border-b-2 border-pink-700"
                   >
-                    {" "}
-                    Home
+                    {link.name}
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    prefetch={true}
-                    className="hover:border-b-2 border-[#9d174d]"
-                    href="/products"
-                  >
-                    {" "}
-                    Products
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    prefetch={true}
-                    className="hover:border-b-2 border-[#9d174d]"
-                    href="/about"
-                  >
-                    {" "}
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    prefetch={true}
-                    className="hover:border-b-2 border-[#9d174d]"
-                    href="/contact"
-                  >
-                    {" "}
-                    Contact Us
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            {/* {pages.map((page) => (
-             
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'black', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))} */}
+              ))}
+            </ul>
           </Box>
-          <div
-            className="header-icons"
-            style={{ display: "flex", alignItems: "center", gap: "0px" }}
-          >
-            {/* <Link href="/wishlist" prefetch={true} passHref>
-              <IconButton
-                aria-label="Wishlist"
-                style={{
-                  fontSize: "24px",
-                  color: "#9d174d",
-                  transition: "transform 0.3s ease",
-                }}
-                className="icon-button"
-              >
-                <FavoriteIcon style={{ fontSize: "32px" }} />
-              </IconButton>
-            </Link> */}
 
-            {/* <Link href="/cart" prefetch={true} passHref>
-              <IconButton
-                aria-label="Cart"
-                style={{
-                  fontSize: "24px",
-                  color: "#9d174d",
-                  transition: "transform 0.3s ease",
-                }}
-                className="icon-button"
-              >
-                <AddShoppingCartIcon style={{ fontSize: "32px" }} />
-              </IconButton>
-            </Link> */}
-
-            <Link href="/cart" prefetch={true} passHref>
-              <IconButton
-                aria-label="Cart"
-                style={{
-                  fontSize: "24px",
-                  color: "#9d174d",
-                  transition: "transform 0.3s ease",
-                  position: "relative",
-                }}
-                className="icon-button"
-              >
-                <AddShoppingCartIcon style={{ fontSize: "32px" }} />
-
-                {/* Counter badge */}
+          {/* Right Icons */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Link href="/cart" passHref>
+              <IconButton color="inherit" sx={{ position: "relative" }}>
+                <AddShoppingCartIcon sx={{ fontSize: 30 }} />
                 {cartItems.length > 0 && (
                   <span
                     style={{
@@ -325,35 +121,17 @@ function Navbar() {
               </IconButton>
             </Link>
 
-            <Link href="/login" prefetch={true} passHref>
-              <IconButton
-                aria-label="Account"
-                style={{
-                  fontSize: "24px",
-                  color: "#9d174d",
-                  transition: "transform 0.3s ease",
-                }}
-                className="icon-button"
-              >
-                <AccountCircleIcon style={{ fontSize: "32px" }} />
+            <Link href="/login" passHref>
+              <IconButton color="inherit">
+                <AccountCircleIcon sx={{ fontSize: 30 }} />
               </IconButton>
             </Link>
-
-            <style jsx>{`
-              .icon-button:hover {
-                transform: scale(1.2);
-              }
-
-              .header-icons {
-                display: flex;
-                align-items: center;
-                gap: 16px;
-              }
-            `}</style>
-          </div>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
-}
+};
+
 export default Navbar;
+
