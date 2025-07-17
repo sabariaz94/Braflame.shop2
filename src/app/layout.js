@@ -1,18 +1,8 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { Toaster } from "react-hot-toast";
 
 // Load fonts from Google
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 // App metadata (optional for SEO or head elements)
 export const metadata = {
@@ -23,7 +13,7 @@ export const metadata = {
 // Main layout function
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en">
       <body className="antialiased">
         {/* Toast notification system */}
         <Toaster position="top-center" toastOptions={{ duration: 3000 }} />

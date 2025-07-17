@@ -5,7 +5,8 @@ import HomePage from './(pages)/(page)/home/page'
 
 const page = () => {
   return (
-    <div>
+    <div >
+  
       <HomePage/>
     </div>
   )
