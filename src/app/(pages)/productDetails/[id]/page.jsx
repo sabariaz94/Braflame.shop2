@@ -1,4 +1,3 @@
-// app/product/[id]/page.jsx
 "use client";
 
 import { getProducts } from "@/sanity/lib/getProducts";
@@ -8,25 +7,23 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { use } from "react";
 
 export default function ProductPage(props) {
   const { addToCart } = useCart();
   const router = useRouter();
   const [filterProduct, setFilterProduct] = useState(null);
 
-  // Unwrap `params` (as it's now a Promise in Next.js App Router)
-  const params = use(props.params);
+  const { id } = props.params;
 
   useEffect(() => {
     async function fetchProduct() {
       const allProducts = await getProducts();
-      const matchedProduct = allProducts.find((item) => item._id === params.id);
+      const matchedProduct = allProducts.find((item) => item._id === id);
       setFilterProduct(matchedProduct);
     }
 
     fetchProduct();
-  }, [params.id]);
+  }, [id]);
 
   if (!filterProduct)
     return <div className="text-center py-20 text-xl font-semibold">Loading product...</div>;
