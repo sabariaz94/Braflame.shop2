@@ -67,7 +67,7 @@ export default function AboutPage() {
             Whether you're shopping for your first perfect fit or expanding your wardrobe with comfort-focused pieces — we're here for you every step of the way.
           </p>
           <Link
-            href="/shop"
+            href="/products"
             className="inline-block bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-full font-semibold transition"
           >
             Explore Our Collection

@@ -32,7 +32,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.9, duration: 0.4 }}
         >
-          <Link href="/">
+          <Link href="/products">
             <span className="inline-block bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-full text-lg font-semibold shadow cursor-pointer">
               Shop Collection
             </span>
