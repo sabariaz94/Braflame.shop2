@@ -4,11 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/firebase/firebaseConfig';
+import { auth } from '../../../firebase/firebaseConfig'
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
+import Footer from '../../../components/Footer';
+import Navbar from '../../../components/Navbar';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');

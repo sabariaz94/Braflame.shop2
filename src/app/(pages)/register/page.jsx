@@ -4,11 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from '@/firebase/firebaseConfig'; // Adjust path as needed
+import { auth } from '../../../firebase/firebaseConfig'; // Adjust path as needed
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
+import Footer from '../../../components/Footer';
+import Navbar from '../../../components/Navbar';
 
 export default function RegisterPage() {
   const [form, setForm] = useState({

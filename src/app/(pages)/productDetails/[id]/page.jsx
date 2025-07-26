@@ -1,12 +1,12 @@
 "use client";
 
-import { getProducts } from "@/sanity/lib/getProducts";
-import { useCart } from "@/context/CartContext";
+import { getProducts } from "../../../../sanity/lib/getProducts";
+import { useCart } from "../../../../context/CartContext";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "../../../../components/Navbar";
+import Footer from "../../../../components/Footer";
 import { motion } from "framer-motion";
 import { Dialog } from "@headlessui/react";
 

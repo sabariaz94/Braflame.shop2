@@ -2,13 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { client } from '@/sanity/lib/client';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import { client } from '../sanity/lib/client'; // ✅ correct relative path
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function OrderSuccessPageClient() {
+export default function Page() {
   const [order, setOrder] = useState(null);
   const searchParams = useSearchParams();
   const orderId = searchParams.get('orderId');
@@ -50,7 +50,8 @@ export default function OrderSuccessPageClient() {
           </p>
 
           <div className="text-center text-green-700 font-medium bg-green-50 border border-green-200 rounded-md p-4 mb-10">
-            🚚 Your order is expected to arrive within <span className="font-semibold">5 business days</span>. You’ll receive a confirmation email once it ships.
+            🚚 Your order is expected to arrive within{' '}
+            <span className="font-semibold">5 business days</span>. You’ll receive a confirmation email once it ships.
           </div>
 
           {/* Order Info */}

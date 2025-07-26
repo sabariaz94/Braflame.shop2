@@ -1,7 +1,7 @@
 // src/app/page.js
 'use client'
 import { useEffect, useState } from 'react'
-import { getProducts } from '@/sanity/lib/getProducts'
+import { getProducts } from '../../../../sanity/lib/getProducts'
 
 export default function HomePage() {
   const [products, setProducts] = useState([])

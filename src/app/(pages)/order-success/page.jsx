@@ -233,7 +233,7 @@
 // }
 
 
-import OrderSuccessPageClient from '@/components/OrderSuccess';
+import OrderSuccessPageClient from '../../../components/OrderSuccess';
 import React, { Suspense } from 'react';
 // import OrderSuccessPageClient from './OrderSuccessPageClient';
 
