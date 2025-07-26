@@ -10,27 +10,28 @@ import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
 import { useDemoRouter } from '@toolpad/core/internal';
 
-import AddProduct from '@/app/(pages)/admin/addProducts/page';
+import AddProduct from '../app/(pages)/admin/addProducts/page';
 // import QuoteRequests from '@/app/dashboard/quotes/page';
 // import AllUsers from '@/app/dashboard/users/page';
 
 import { BsChatLeftQuoteFill } from 'react-icons/bs';
 import { FaFirstOrderAlt } from 'react-icons/fa6';
 import { MdLogout } from 'react-icons/md';
-import { FiUsers } from 'react-icons/fi';
+import { FiUsers, FiMessageSquare } from 'react-icons/fi'; // ✅ Import message icon
 
 // import { auth, signOut } from '@/firebase/FirebaseConfig.js';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import AdminOrdersPage from '@/app/(pages)/admin/orders/page';
+import AdminOrdersPage from '../app/(pages)/admin/orders/page';
 
-// Navigation without type annotations
+// ✅ Add Messages route
 const NAVIGATION = [
   { segment: 'dashboard', title: 'Dashboard', icon: <DashboardIcon /> },
   { segment: 'products', title: 'Products', icon: <ShoppingCartIcon /> },
   { segment: 'orders', title: 'Orders', icon: <FaFirstOrderAlt /> },
   { segment: 'quoteRequests', title: 'QuoteRequests', icon: <BsChatLeftQuoteFill /> },
   { segment: 'users', title: 'Users', icon: <FiUsers /> },
+  { segment: 'messages', title: 'Messages', icon: <FiMessageSquare /> }, // ✅ This line added
   { segment: 'signOut', title: 'SignOut', icon: <MdLogout /> },
 ];
 
@@ -73,6 +74,8 @@ function DemoPageContent({ pathname }) {
         return <AddProduct />;
       case '/users':
         return <AddProduct />;
+      case '/messages':
+        return <Typography>Messages Page</Typography>; // ✅ Temporary placeholder
       default:
         return <Typography>Page Not Found</Typography>;
     }

@@ -8,7 +8,7 @@ const Testimonials = () => {
           <p className="mt-2 font-semibold">— Ayesha K.</p>
         </div>
         <div className="bg-pink-100 p-4 rounded shadow text-center">
-          <p>“Great quality and affordable. Highly recommend Brabliss!”</p>
+          <p>“Great quality and affordable. Highly recommend BraFlame”</p>
           <p className="mt-2 font-semibold">— Fatima S.</p>
         </div>
         <div className="bg-pink-100 p-4 rounded shadow text-center">

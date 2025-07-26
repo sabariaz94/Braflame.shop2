@@ -14,9 +14,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FiUploadCloud } from "react-icons/fi";
 import Image from "next/image";
-import { client } from "@/sanity/lib/client";
+import { client } from "../../../../sanity/lib/client";
 import { v4 as uuidv4 } from "uuid";
-import { urlFor } from "@/sanity/lib/imageUrlBuilder"
+import { urlFor } from "../../../../sanity/lib/imageUrlBuilder"
 
 
 const AddProduct = () => {

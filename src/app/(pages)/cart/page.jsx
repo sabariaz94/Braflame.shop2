@@ -124,33 +124,29 @@
 
 import React from 'react';
 import { Trash2, Minus, Plus } from 'lucide-react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Navbar from '../../../components/Navbar';
+import Footer from '../../../components/Footer';
 import Link from 'next/link';
-import { useCart } from '@/context/CartContext';
+import { useCart } from '../../../context/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-hot-toast';
 
 export default function CartPage() {
-  const { cartItems, setCartItems, removeFromCart } = useCart();
+  const { cartItems, setCartItems } = useCart();
 
-  // ✅ Group by _id for quantity tracking
+  // Group by _id and count quantity
   const groupedItems = cartItems.reduce((acc, item) => {
     const existing = acc.find((i) => i._id === item._id);
-    if (existing) {
-      existing.quantity += 1;
-    } else {
-      acc.push({ ...item, quantity: 1 });
-    }
+    if (existing) existing.quantity += 1;
+    else acc.push({ ...item, quantity: 1 });
     return acc;
   }, []);
 
-  // ✅ Increment quantity by duplicating item
   const incrementQty = (_id) => {
     const item = cartItems.find((i) => i._id === _id);
     if (item) setCartItems((prev) => [...prev, item]);
   };
 
-  // ✅ Decrement quantity by removing one instance
   const decrementQty = (_id) => {
     const index = cartItems.findIndex((i) => i._id === _id);
     if (index !== -1) {
@@ -160,21 +156,21 @@ export default function CartPage() {
     }
   };
 
-  // ✅ Total calculation
+  const removeItemCompletely = (_id) => {
+    setCartItems((prev) => prev.filter((item) => item._id !== _id));
+    toast.success('🗑️ Item removed from cart');
+  };
+
   const total = groupedItems
-    .reduce(
-      (acc, item) => acc + parseFloat(item.price || 0) * (item.quantity || 1),
-      0
-    )
+    .reduce((acc, item) => acc + parseFloat(item.price || 0) * item.quantity, 0)
     .toFixed(2);
 
   return (
     <>
       <Navbar />
-
       <main className="max-w-6xl mx-auto px-4 py-12 min-h-screen">
-        <h1 className="text-4xl font-bold text-pink-700 mb-10 text-center">
-          🛍 Your Shopping Bag
+        <h1 className="text-4xl font-extrabold text-pink-700 mb-10 text-center">
+          🛒 Your Shopping Cart
         </h1>
 
         {groupedItems.length === 0 ? (
@@ -188,58 +184,60 @@ export default function CartPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-6">
               <AnimatePresence>
                 {groupedItems.map((item) => {
-                  const image =
-                    item?.images?.[0]?.asset?.url || '/placeholder.jpg';
+                  const image = item?.images?.[0]?.asset?.url || '/placeholder.jpg';
 
                   return (
                     <motion.div
                       key={item._id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.3 }}
-                      className="flex items-center justify-between bg-white border border-pink-100 rounded-xl shadow-sm p-4"
+                      className="flex items-center justify-between bg-white border border-pink-100 rounded-2xl shadow-md p-4 hover:shadow-lg transition-transform hover:scale-[1.01]"
                     >
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-5">
                         <img
                           src={image}
                           alt={item.title}
-                          className="w-24 h-24 object-cover rounded-lg border"
+                          className="w-24 h-24 object-cover rounded-xl border"
                         />
                         <div>
-                          <h2 className="text-lg font-semibold text-pink-800">
+                          <h2 className="text-lg font-semibold text-gray-800">
                             {item.title}
                           </h2>
-                          <p className="text-sm text-gray-500">
-                            PKR {item.price}
-                          </p>
-                          <div className="flex items-center mt-2 space-x-2">
+                          <p className="text-sm text-gray-500">PKR {item.price}</p>
+
+                          {/* Quantity Controls */}
+                          <div className="flex items-center mt-3 gap-3">
                             <button
                               onClick={() => decrementQty(item._id)}
-                              className="bg-pink-200 text-pink-800 rounded-full p-1 hover:bg-pink-300"
+                              className="w-8 h-8 bg-pink-100 text-pink-700 rounded-full flex items-center justify-center shadow hover:bg-pink-200 transition"
                             >
                               <Minus size={16} />
                             </button>
-                            <span className="px-3 py-1 border rounded text-sm">
+                            <span className="px-4 py-1 bg-pink-50 text-pink-700 font-medium rounded-full border">
                               {item.quantity}
                             </span>
                             <button
                               onClick={() => incrementQty(item._id)}
-                              className="bg-pink-200 text-pink-800 rounded-full p-1 hover:bg-pink-300"
+                              className="w-8 h-8 bg-pink-100 text-pink-700 rounded-full flex items-center justify-center shadow hover:bg-pink-200 transition"
                             >
                               <Plus size={16} />
                             </button>
                           </div>
                         </div>
                       </div>
+
+                      {/* Delete Button */}
                       <button
-                        className="text-red-500 hover:text-red-600 transition"
-                        onClick={() => removeFromCart(item._id)}
+                        onClick={() => removeItemCompletely(item._id)}
+                        className="text-red-500 hover:text-red-600 p-2 rounded-full transition"
+                        title="Remove item"
                       >
                         <Trash2 size={20} />
                       </button>
@@ -249,16 +247,15 @@ export default function CartPage() {
               </AnimatePresence>
             </div>
 
-            {/* Summary Box */}
+            {/* Summary Section */}
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
+              initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4 }}
-              className="bg-pink-50 p-6 rounded-xl shadow-md border border-pink-100"
+              className="bg-white border border-pink-100 p-6 rounded-2xl shadow-md sticky top-20 h-fit"
             >
-              <h3 className="text-xl font-semibold text-pink-700 mb-4">
-                Order Summary
-              </h3>
+              <h3 className="text-2xl font-bold text-pink-700 mb-6">🧾 Order Summary</h3>
+
               <div className="flex justify-between text-gray-700 mb-2">
                 <span>Subtotal</span>
                 <span>PKR {total}</span>
@@ -267,14 +264,17 @@ export default function CartPage() {
                 <span>Shipping</span>
                 <span>Calculated at checkout</span>
               </div>
-              <hr className="mb-4" />
-              <div className="flex justify-between font-bold text-gray-800 text-lg mb-6">
+
+              <hr className="my-4" />
+
+              <div className="flex justify-between font-bold text-gray-900 text-lg mb-6">
                 <span>Total</span>
                 <span>PKR {total}</span>
               </div>
+
               <Link
                 href="/checkout"
-                className="block text-center bg-pink-600 hover:bg-pink-700 text-white font-medium py-3 rounded-full transition"
+                className="block w-full text-center bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-semibold py-3 rounded-full transition shadow-md"
               >
                 Proceed to Checkout
               </Link>

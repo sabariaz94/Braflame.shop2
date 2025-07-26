@@ -14,7 +14,7 @@ export default function Benefits() {
     {
       icon: "📦",
       title: "Fast & Discreet Shipping",
-      desc: "Free delivery over $50 in elegant packaging.",
+      desc: "Free delivery over 5000 pkr in elegant packaging.",
     },
   ];
   return (

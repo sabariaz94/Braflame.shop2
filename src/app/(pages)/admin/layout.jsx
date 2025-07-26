@@ -1,4 +1,4 @@
-import DashboardLayoutBranding from '@/components/SideBar'
+import DashboardLayoutBranding from '../../../components/SideBar'
 import React from 'react'
 
 const layout = ({children}) => {

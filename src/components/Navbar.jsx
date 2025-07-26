@@ -14,7 +14,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Image from "next/image";
 import Link from "next/link";
 import { getAuth, signOut } from "firebase/auth";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "../context/CartContext";
 
 const Navbar = () => {
   const { cartItems } = useCart();

@@ -1,65 +1,123 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { useCart } from "@/context/CartContext";
+import { ShoppingCart, Info } from "lucide-react";
+import { useCart } from "../context/CartContext";
 import toast from "react-hot-toast";
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
-  // const [filterProduct, setFilterProduct] = useState(null);
   const imageUrl = product?.images?.[0]?.asset?.url;
-  // console.log("ABCXYZ==> ", product);
+
+  const sizes = ["S", "M", "L", "XL"];
+  const availableStockPerSize = 10; // Uniform stock for all sizes
+
+  const [selectedSize, setSelectedSize] = useState("");
+  const [quantity, setQuantity] = useState(1);
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      toast.error("Please select a size.");
+      return;
+    }
+
+    addToCart({ ...product, selectedSize, quantity });
+    toast.success("Product added to cart!");
+  };
 
   return (
-    <div className="group relative bg-white border border-gray-100 shadow-sm rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-[1.015]">
-      {/* Image Section */}
-      <div className="relative h-64 w-full overflow-hidden">
+    <div className="group relative bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+      {/* Image */}
+      <div className="relative h-64 w-full">
         <Link href={`/productDetails/${product?._id}`}>
           <Image
             src={imageUrl}
             alt={product.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 33vw"
           />
         </Link>
       </div>
 
       {/* Content */}
-      <div className="p-4 space-y-2">
-        <h3 className="text-base md:text-lg font-semibold text-gray-800 group-hover:text-pink-600 transition-colors duration-300 line-clamp-1">
-          {product?.title}
+      <div className="p-4 space-y-3">
+        <h3 className="text-lg font-semibold text-gray-800 group-hover:text-pink-600 transition-colors line-clamp-1">
+          {product.title}
         </h3>
 
         <p className="text-sm text-gray-500 line-clamp-2">
-          {product?.description || "No description available."}
+          {product.description || "No description provided."}
         </p>
 
-        {/* Price + Cart */}
-        <div className="flex items-center justify-between mt-4">
-          <span className="text-lg font-bold text-pink-600">
-            PKR {product?.price}
-          </span>
-          {/* router.push("/cart"); */}
-          <button
-            onClick={() => {
-              addToCart(product);
-              toast.success("Product Added Successfully!")
+        {/* Size Selector */}
+        <div className="flex items-center gap-2">
+          <label className="text-sm text-gray-600">Size:</label>
+          <select
+            value={selectedSize}
+            onChange={(e) => {
+              setSelectedSize(e.target.value);
+              setQuantity(1);
             }}
-            className="bg-pink-600 hover:bg-pink-700 text-white p-2 rounded-full shadow transition-all duration-300"
+            className="border border-gray-300 rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-pink-500"
+          >
+            <option value="">Select</option>
+            {sizes.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+
+          {/* Size Chart Tooltip */}
+          <div className="relative group">
+            <Info
+              size={16}
+              className="text-gray-400 ml-1 hover:text-gray-600 cursor-pointer"
+              aria-label="Size Chart"
+            />
+            <div className="absolute bottom-full mb-2 left-0 hidden group-hover:block z-10 bg-white border border-gray-200 text-xs text-gray-700 rounded-md shadow-md w-44 p-3">
+              <p className="font-medium text-gray-800 mb-1">📏 Size Chart</p>
+              <ul className="list-disc list-inside space-y-1">
+                <li>S: 34–36"</li>
+                <li>M: 38–40"</li>
+                <li>L: 42–44"</li>
+                <li>XL: 46–48"</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Quantity Selector */}
+        {selectedSize && (
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-gray-600">Qty:</label>
+            <input
+              type="number"
+              min={1}
+              max={availableStockPerSize}
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              className="w-16 border border-gray-300 px-2 py-1 rounded-md text-sm focus:ring-2 focus:ring-pink-500"
+            />
+            <span className="text-xs text-gray-500">{availableStockPerSize} in stock</span>
+          </div>
+        )}
+
+        {/* Price + Add to Cart */}
+        <div className="flex items-center justify-between pt-2">
+          <span className="text-lg font-bold text-pink-600">PKR {product?.price}</span>
+          <button
+            onClick={handleAddToCart}
+            className="bg-pink-600 hover:bg-pink-700 text-white p-2 rounded-full transition-all duration-300 shadow"
           >
             <ShoppingCart size={18} />
           </button>
         </div>
       </div>
-
-      {/* Floating Label (optional size/label) */}
-      {product?.sizes && (
-        <span className="absolute top-2 left-2 bg-white text-pink-700 text-xs font-medium px-2 py-0.5 rounded-full shadow">
-          Sizes: {product?.sizes}
-        </span>
-      )}
     </div>
   );
 }
+

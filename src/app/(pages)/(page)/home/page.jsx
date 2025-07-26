@@ -1,15 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import HeroSection from "@/components/HeroSection";
-import ProductShowcase from "@/components/ProductShowcase";
-import AutoScrollSection from "@/components/AutoScrollSection";
-import Benefits from "@/components/Benefits";
-import { getProducts } from '@/sanity/lib/getProducts';
-import WhyBrabliss from '@/components/WhyBrabliss';
-import Testimonials from '@/components/Testimonials';
+import Navbar from "../../../../components/Navbar";
+import Footer from "../../../../components/Footer";
+import HeroSection from "../../../../components/HeroSection";
+import ProductShowcase from "../../../../components/ProductShowcase";
+import AutoScrollSection from "../../../../components/AutoScrollSection";
+import Benefits from "../../../../components/Benefits";
+import { getProducts } from '../../../../sanity/lib/getProducts';
+import WhyBrabliss from '../../../../components/WhyBrabliss';
+import Testimonials from '../../../../components/Testimonials';
+
+
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
@@ -27,7 +29,6 @@ export default function HomePage() {
       <main className="min-h-screen bg-pink-50">
         <HeroSection />
 
-        {/* Only show sections if products are available */}
         {products.length > 0 ? (
           <>
             <ProductShowcase title="Featured Bras" products={products} />

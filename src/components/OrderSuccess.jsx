@@ -44,9 +44,14 @@ export default function OrderSuccessPageClient() {
           <h1 className="text-3xl font-bold text-pink-700 text-center mb-6">
             🎉 Thank You for Your Order!
           </h1>
-          <p className="text-center text-gray-600 mb-10">
+
+          <p className="text-center text-gray-600 mb-4">
             We've received your order and are preparing it for shipment.
           </p>
+
+          <div className="text-center text-green-700 font-medium bg-green-50 border border-green-200 rounded-md p-4 mb-10">
+            🚚 Your order is expected to arrive within <span className="font-semibold">5 business days</span>. You’ll receive a confirmation email once it ships.
+          </div>
 
           {/* Order Info */}
           <div className="grid md:grid-cols-2 gap-8">

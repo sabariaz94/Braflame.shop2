@@ -53,7 +53,7 @@ export default function LoginPage() {
         className="w-full max-w-md backdrop-blur-md bg-white/80 border border-pink-100 shadow-2xl rounded-3xl p-8 space-y-6"
       >
         <h1 className="text-3xl font-bold text-pink-600 text-center">Welcome Back 💖</h1>
-        <p className="text-center text-sm text-pink-500">Sign in to continue to BraBliss</p>
+        <p className="text-center text-sm text-pink-500">Sign in to continue to BraFlame</p>
 
         <form onSubmit={handleLogin} className="space-y-5">
           <div>

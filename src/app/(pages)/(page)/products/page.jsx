@@ -103,11 +103,10 @@
 
 
 'use client'
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
-import ProductCard from '@/components/ProductCart'
-import ProductShowcase from '@/components/ProductShowcase';
-import { getProducts } from '@/sanity/lib/getProducts';
+import Footer from '../../../../components/Footer';
+import Navbar from '../../../../components/Navbar';
+import ProductShowcase from '../../../../components/ProductShowcase';
+import { getProducts } from '../../../../sanity/lib/getProducts';
 import React, { useEffect, useState } from 'react'
 
 const page = () => {
