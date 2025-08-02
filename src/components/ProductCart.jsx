@@ -71,23 +71,7 @@ export default function ProductCard({ product }) {
             ))}
           </select>
 
-          {/* Size Chart Tooltip */}
-          <div className="relative group">
-            <Info
-              size={16}
-              className="text-gray-400 ml-1 hover:text-gray-600 cursor-pointer"
-              aria-label="Size Chart"
-            />
-            <div className="absolute bottom-full mb-2 left-0 hidden group-hover:block z-10 bg-white border border-gray-200 text-xs text-gray-700 rounded-md shadow-md w-44 p-3">
-              <p className="font-medium text-gray-800 mb-1">📏 Size Chart</p>
-              <ul className="list-disc list-inside space-y-1">
-                <li>S: 34–36"</li>
-                <li>M: 38–40"</li>
-                <li>L: 42–44"</li>
-                <li>XL: 46–48"</li>
-              </ul>
-            </div>
-          </div>
+        
         </div>
 
         {/* Quantity Selector */}

@@ -1,51 +1,80 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Navbar from "../../../../components/Navbar";
-import Footer from "../../../../components/Footer";
-import HeroSection from "../../../../components/HeroSection";
-import ProductShowcase from "../../../../components/ProductShowcase";
-import AutoScrollSection from "../../../../components/AutoScrollSection";
-import Benefits from "../../../../components/Benefits";
+import Navbar from '../../../../components/Navbar';
+import Footer from '../../../../components/Footer';
+import HeroSlider from '../../../../components/HeroFull';
+import LifestyleBanner from '../../../../components/LifestyleBanner';
+import CategoryHighlight from '../../../../components/CategoryHighlight';
+import ProductShowcase from '../../../../components/ProductShowcase';
+import TestimonialsModern from '../../../../components/TestimonialsModern';
 import { getProducts } from '../../../../sanity/lib/getProducts';
+import Benefits from "../../../../components/Benefits";
 import WhyBrabliss from '../../../../components/WhyBrabliss';
-import Testimonials from '../../../../components/Testimonials';
-
-
-
+import IntroAnimation from "../../../../components/IntroAnimation";
 export default function HomePage() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true); // Added explicit loading state
 
   useEffect(() => {
-    getProducts().then((data) => {
-      setProducts(data || []);
-    });
+    const fetchProducts = async () => {
+      try {
+        const data = await getProducts();
+        setProducts(data || []);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   return (
     <>
+    <IntroAnimation/>
       <Navbar />
 
-      <main className="min-h-screen bg-pink-50">
-        <HeroSection />
+      <main className="bg-[#fffaf8] text-neutral-800 overflow-x-hidden">
+        {/* Hero Banner */}
+        <HeroSlider />
 
-        {products.length > 0 ? (
-          <>
-            <ProductShowcase title="Featured Bras" products={products} />
-            <AutoScrollSection title="Our Bestsellers" products={products} />
-          </>
-        ) : (
-          <div className="text-center py-20 text-pink-700 text-lg">
+        {/* Product Showcase */}
+        {loading ? (
+          <div className="text-center py-20 text-gray-500 text-lg">
             Loading products...
+          </div>
+        ) : products.length > 0 ? (
+          <ProductShowcase title="Best Sellers" products={products.slice(0, 8)} />
+        ) : (
+          <div className="text-center py-20 text-red-500 text-lg">
+            No products available.
           </div>
         )}
 
-        <WhyBrabliss />
+        {/* Testimonials */}
+        <TestimonialsModern />
+        {/* Benefits Section */}
         <Benefits />
-        <Testimonials />
+
+        {/* Why Brabliss Section */}
+        <WhyBrabliss />
+
+       
+
+        {/* Lifestyle Banner */}
+        <LifestyleBanner
+          image="/assets/imgs/about.jpg"
+          text="Love Yourself, Every Layer"
+          ctaText="Explore More"
+          link="/about"
+          ctaStyle="bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-full"
+        />
       </main>
 
       <Footer />
     </>
   );
 }
+

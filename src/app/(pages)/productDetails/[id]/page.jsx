@@ -8,14 +8,13 @@ import { useRouter } from "next/navigation";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
 import { motion } from "framer-motion";
-import { Dialog } from "@headlessui/react";
 
 export default function ProductPage({ params }) {
   const { addToCart } = useCart();
   const router = useRouter();
   const [product, setProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState("");
-  const [isSizeChartOpen, setIsSizeChartOpen] = useState(false);
+  const [selectedColor, setSelectedColor] = useState("");
   const { id } = params;
 
   useEffect(() => {
@@ -32,12 +31,19 @@ export default function ProductPage({ params }) {
     ? Array.from(new Set([...product.sizes, "XL"]))
     : defaultSizes;
 
+  const defaultColors = ["Black", "White", "Blue", "Red", "Green"];
+  const colors = product?.colors?.length ? product.colors : defaultColors;
+
   const handleAddToCart = () => {
     if (!selectedSize) {
       alert("Please select a size before adding to cart.");
       return;
     }
-    addToCart({ ...product, selectedSize });
+    if (!selectedColor) {
+      alert("Please select a color before adding to cart.");
+      return;
+    }
+    addToCart({ ...product, selectedSize, selectedColor });
     router.push("/cart");
   };
 
@@ -56,16 +62,16 @@ export default function ProductPage({ params }) {
       <main className="max-w-6xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-2 gap-14 items-start">
         {/* Product Image */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
-          className="relative w-full h-[420px] md:h-[500px] rounded-3xl overflow-hidden shadow-lg border border-gray-100"
+          className="relative w-full h-[450px] md:h-[520px] rounded-3xl overflow-hidden shadow-xl border border-gray-100"
         >
           <Image
             src={product?.images?.[0]?.asset?.url}
             alt={product?.title}
             fill
-            className="object-cover"
+            className="object-cover transition-transform duration-500 hover:scale-105"
           />
         </motion.div>
 
@@ -76,72 +82,119 @@ export default function ProductPage({ params }) {
           transition={{ duration: 0.5 }}
           className="flex flex-col gap-6"
         >
-          <h1 className="text-4xl font-extrabold text-gray-900 leading-tight">
+          {/* Title */}
+          <h1 className="text-4xl font-extrabold text-gray-900 leading-tight tracking-tight">
             {product?.title}
           </h1>
 
-          <p className="text-lg text-gray-600">{product?.description}</p>
-
-          <p className="text-3xl font-bold text-pink-600 mt-2">
+          {/* Price */}
+          <p className="text-3xl font-bold text-pink-600">
             {product?.price} PKR
           </p>
 
+          {/* Description */}
+          <p className="text-base leading-relaxed text-gray-600">
+            {product?.description}
+          </p>
+
+          {/* Color Selector */}
+          <div className="mt-4 space-y-2">
+            <label className="text-sm font-medium text-gray-700">
+              Select Color
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {colors.map((color) => (
+                <button
+                  key={color}
+                  onClick={() => setSelectedColor(color)}
+                  className={`px-4 py-2 text-sm rounded-full font-medium border transition-all shadow-sm ${
+                    selectedColor === color
+                      ? "bg-pink-600 text-white border-pink-600 shadow-md"
+                      : "bg-white border-gray-300 text-gray-700 hover:border-pink-500 hover:shadow-md"
+                  }`}
+                >
+                  {color}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Size Selector */}
-          <div className="mt-6 space-y-2">
+          <div className="mt-4 space-y-2">
             <label className="text-sm font-medium text-gray-700">
               Select Size
             </label>
-
-            {/* Mobile (Buttons) */}
-            <div className="flex flex-wrap gap-2 sm:hidden">
+            <div className="flex flex-wrap gap-2">
               {sizes.map((size) => (
                 <button
                   key={size}
                   onClick={() => setSelectedSize(size)}
-                  className={`px-4 py-2 text-sm rounded-md font-medium border transition-all ${
+                  className={`px-4 py-2 text-sm rounded-full font-medium border transition-all shadow-sm ${
                     selectedSize === size
-                      ? "bg-pink-600 text-white border-pink-600"
-                      : "bg-white border-gray-300 text-gray-700 hover:border-pink-500"
+                      ? "bg-pink-600 text-white border-pink-600 shadow-md"
+                      : "bg-white border-gray-300 text-gray-700 hover:border-pink-500 hover:shadow-md"
                   }`}
                 >
                   {size}
                 </button>
               ))}
             </div>
+          </div>
 
-            {/* Desktop (Dropdown) */}
-            <select
-              value={selectedSize}
-              onChange={(e) => setSelectedSize(e.target.value)}
-              className="hidden sm:block w-full px-3 py-2 border rounded-md text-sm border-gray-300 focus:ring-pink-500 focus:outline-none"
-            >
-              <option value="">Choose size</option>
-              {sizes.map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </select>
-
-            <button
-              onClick={() => setIsSizeChartOpen(true)}
-              className="text-sm text-blue-600 underline underline-offset-2 mt-1 hover:text-blue-700"
-            >
-              📏 View Size Chart
-            </button>
+          {/* Size Chart */}
+          <div className="mt-6 border rounded-lg overflow-hidden shadow-sm">
+            <h2 className="bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700 border-b">
+              📏 Size Chart
+            </h2>
+            <table className="w-full text-sm text-gray-700">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="border px-3 py-2">Size</th>
+                  <th className="border px-3 py-2">Chest</th>
+                  <th className="border px-3 py-2">Waist</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border px-3 py-2">S</td>
+                  <td className="border px-3 py-2">28–32"</td>
+                  <td className="border px-3 py-2">28–30"</td>
+                </tr>
+                <tr>
+                  <td className="border px-3 py-2">M</td>
+                  <td className="border px-3 py-2">34–36"</td>
+                  <td className="border px-3 py-2">32–34"</td>
+                </tr>
+                <tr>
+                  <td className="border px-3 py-2">L</td>
+                  <td className="border px-3 py-2">38–40"</td>
+                  <td className="border px-3 py-2">36–38"</td>
+                </tr>
+                <tr>
+                  <td className="border px-3 py-2">XL</td>
+                  <td className="border px-3 py-2">42–44"</td>
+                  <td className="border px-3 py-2">40–42"</td>
+                </tr>
+                <tr>
+                  <td className="border px-3 py-2">XXL</td>
+                  <td className="border px-3 py-2">46–48"</td>
+                  <td className="border px-3 py-2">44–46"</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-8">
             <button
               onClick={handleAddToCart}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-xl text-lg font-semibold shadow-md hover:shadow-lg transition transform hover:scale-105"
+              className="bg-gradient-to-r from-pink-400 to-pink-400 hover:from-pink-500 hover:to-pink-400 text-white px-6 py-3 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition transform hover:scale-105"
             >
               🛒 Add to Cart
             </button>
             <button
               onClick={() => router.push("/checkout")}
-              className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-lg font-semibold shadow-md hover:shadow-lg transition transform hover:scale-105"
+              className="bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 px-6 py-3 rounded-xl text-lg font-semibold shadow-md hover:shadow-lg transition transform hover:scale-105"
             >
               💳 Checkout Now
             </button>
@@ -150,45 +203,7 @@ export default function ProductPage({ params }) {
       </main>
 
       <Footer />
-
-      {/* Size Chart Modal */}
-      <Dialog
-        open={isSizeChartOpen}
-        onClose={() => setIsSizeChartOpen(false)}
-        className="relative z-50"
-      >
-        <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
-        <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
-            <Dialog.Title className="text-lg font-semibold text-gray-800 mb-3">
-              Size Chart
-            </Dialog.Title>
-            <ul className="text-sm text-gray-700 space-y-1">
-              <li>
-                <strong>S:</strong> Chest 34–36" – Waist 28–30"
-              </li>
-              <li>
-                <strong>M:</strong> Chest 38–40" – Waist 32–34"
-              </li>
-              <li>
-                <strong>L:</strong> Chest 42–44" – Waist 36–38"
-              </li>
-              <li>
-                <strong>XL:</strong> Chest 46–48" – Waist 40–42"
-              </li>
-              <li>
-                <strong>XXL:</strong> Chest 50–52" – Waist 44–46"
-              </li>
-            </ul>
-            <button
-              onClick={() => setIsSizeChartOpen(false)}
-              className="mt-5 w-full bg-pink-600 text-white py-2 rounded-md hover:bg-pink-700 transition"
-            >
-              Close
-            </button>
-          </Dialog.Panel>
-        </div>
-      </Dialog>
     </div>
   );
 }
+
