@@ -14,7 +14,6 @@ const slides = [
     type: 'video',
     baseUrl: "/images/video.mp4", // /public folder path
     thumbnail: '/assets/images/hero-1.jpg',
-    caption: 'Luxury • Comfort • Confidence',
   },
 ];
 
