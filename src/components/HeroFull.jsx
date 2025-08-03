@@ -11,10 +11,10 @@ import 'swiper/css/effect-fade';
 
 const slides = [
   {
-    type: 'youtube',
-    // Default mute=1 for autoplay
-    baseUrl: 'https://www.youtube.com/embed/iMaW6lQp334?autoplay=1&loop=1&playlist=iMaW6lQp334&controls=0&modestbranding=1&rel=0',
-    thumbnail: '/assets/imgs/thumb-youtube.jpg',
+    type: 'video', // Local MP4 video
+    baseUrl: "/images/video.mp4", // Path from /public folder
+    thumbnail: '/assets/images/hero-1.jpg',
+    caption: 'Luxury • Comfort • Confidence',
   },
 ];
 
@@ -50,15 +50,16 @@ export default function HeroSlider() {
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
             <div className="relative w-full h-screen">
-              {/* YouTube Video */}
-              {slide.type === 'youtube' && (
+              {/* Local MP4 Video */}
+              {slide.type === 'video' && (
                 <div className="relative w-full h-full">
-                  <iframe
-                    src={`${slide.baseUrl}&mute=${muted ? 1 : 0}`}
-                    allow="autoplay; encrypted-media"
-                    allowFullScreen
+                  <video
+                    src={slide.baseUrl}
+                    muted={muted}
+                    autoPlay
+                    loop
+                    playsInline
                     className="absolute w-full h-full object-cover"
-                    title={slide.caption}
                   />
                   {/* Mute / Unmute Button */}
                   <button
@@ -99,5 +100,3 @@ export default function HeroSlider() {
     </section>
   );
 }
-
-
