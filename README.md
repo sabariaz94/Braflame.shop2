@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -47,3 +48,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 # BraFlame.
 >>>>>>> 419f73b858fc7e398dfb989006bdfcbab04d1b96
 "# BraFlame-Eco." 
+=======
+# BraFlameEco
+>>>>>>> 69e9c4fedd8c521e2c23f240b32d90c18b74057a
