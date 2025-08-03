@@ -7,7 +7,7 @@ export default function IntroAnimation() {
     // Simulate loading delay
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000); // 2 seconds delay
+    }, 1000); // 2 seconds delay
     return () => clearTimeout(timer);
   }, []);
 
