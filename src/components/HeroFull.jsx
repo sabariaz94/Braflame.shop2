@@ -11,22 +11,20 @@ import 'swiper/css/effect-fade';
 
 const slides = [
   {
-    type: 'video', // Local MP4 video
-    baseUrl: "/images/video.mp4", // Path from /public folder
+    type: 'video',
+    baseUrl: "/images/video.mp4", // /public folder path
     thumbnail: '/assets/images/hero-1.jpg',
-  
+    caption: 'Luxury • Comfort • Confidence',
   },
 ];
 
 export default function HeroSlider() {
   const [muted, setMuted] = useState(true);
 
-  const toggleMute = () => {
-    setMuted((prev) => !prev);
-  };
+  const toggleMute = () => setMuted((prev) => !prev);
 
   return (
-    <section className="relative w-full h-screen overflow-hidden">
+    <section className="relative w-full h-screen sm:h-[90vh] md:h-screen overflow-hidden">
       <Swiper
         modules={[Autoplay, Pagination, Navigation, EffectFade]}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
@@ -49,7 +47,7 @@ export default function HeroSlider() {
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div className="relative w-full h-screen">
+            <div className="relative w-full h-screen sm:h-[90vh] md:h-screen">
               {/* Local MP4 Video */}
               {slide.type === 'video' && (
                 <div className="relative w-full h-full">
@@ -59,14 +57,14 @@ export default function HeroSlider() {
                     autoPlay
                     loop
                     playsInline
-                    className="absolute w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover sm:object-cover md:object-cover"
                   />
                   {/* Mute / Unmute Button */}
                   <button
                     onClick={toggleMute}
-                    className="absolute bottom-6 right-6 z-50 bg-black/50 text-white px-4 py-2 rounded hover:bg-black/70 transition"
+                    className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 bg-black/50 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded hover:bg-black/70 transition text-sm sm:text-base"
                   >
-                    {muted ? '🔇 Unmute' : '🔊 Mute'}
+                    {muted ? '🔇' : '🔊'}
                   </button>
                 </div>
               )}
@@ -76,13 +74,13 @@ export default function HeroSlider() {
 
               {/* Caption */}
               <motion.div
-                className="absolute inset-0 flex flex-col items-center justify-center text-white z-20 text-center px-6"
+                className="absolute inset-0 flex flex-col items-center justify-center text-white z-20 text-center px-4 sm:px-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
                 <motion.h1
-                  className="text-4xl sm:text-6xl md:text-7xl font-bold mb-6 drop-shadow-lg"
+                  className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 drop-shadow-lg"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
@@ -96,7 +94,7 @@ export default function HeroSlider() {
       </Swiper>
 
       {/* Custom Pagination */}
-      <div className="custom-pagination absolute bottom-6 left-0 right-0 flex justify-center gap-4 z-30" />
+      <div className="custom-pagination absolute bottom-4 sm:bottom-6 left-0 right-0 flex justify-center gap-3 sm:gap-4 z-30" />
     </section>
   );
 }
