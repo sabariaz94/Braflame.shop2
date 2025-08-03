@@ -169,16 +169,16 @@ export default function CartPage() {
     <>
       <Navbar />
       <main className="max-w-6xl mx-auto px-4 py-12 min-h-screen">
-        <h1 className="text-4xl font-extrabold text-pink-700 mb-10 text-center">
+        <h1 className="text-4xl font-extrabold text-pink-700 dark:text-pink-400 mb-10 text-center">
           🛒 Your Shopping Cart
         </h1>
 
         {groupedItems.length === 0 ? (
-          <div className="text-center text-gray-500">
+          <div className="text-center text-gray-500 dark:text-gray-400">
             <p className="text-lg">Your cart is currently empty.</p>
             <Link
               href="/products"
-              className="mt-4 inline-block text-pink-600 font-medium hover:underline"
+              className="mt-4 inline-block text-pink-600 dark:text-pink-400 font-medium hover:underline"
             >
               Browse Products →
             </Link>
@@ -198,34 +198,36 @@ export default function CartPage() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.3 }}
-                      className="flex items-center justify-between bg-white border border-pink-100 rounded-2xl shadow-md p-4 hover:shadow-lg transition-transform hover:scale-[1.01]"
+                      className="flex items-center justify-between bg-white dark:bg-gray-800 border border-pink-100 dark:border-gray-700 rounded-2xl shadow-md p-4 hover:shadow-lg transition-transform hover:scale-[1.01]"
                     >
                       <div className="flex items-center gap-5">
                         <img
                           src={image}
                           alt={item.title}
-                          className="w-24 h-24 object-cover rounded-xl border"
+                          className="w-24 h-24 object-cover rounded-xl border dark:border-gray-700"
                         />
                         <div>
-                          <h2 className="text-lg font-semibold text-gray-800">
+                          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
                             {item.title}
                           </h2>
-                          <p className="text-sm text-gray-500">PKR {item.price}</p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                            PKR {item.price}
+                          </p>
 
                           {/* Quantity Controls */}
                           <div className="flex items-center mt-3 gap-3">
                             <button
                               onClick={() => decrementQty(item._id)}
-                              className="w-8 h-8 bg-pink-100 text-pink-700 rounded-full flex items-center justify-center shadow hover:bg-pink-200 transition"
+                              className="w-8 h-8 bg-pink-100 dark:bg-gray-700 text-pink-700 dark:text-pink-400 rounded-full flex items-center justify-center shadow hover:bg-pink-200 dark:hover:bg-gray-600 transition"
                             >
                               <Minus size={16} />
                             </button>
-                            <span className="px-4 py-1 bg-pink-50 text-pink-700 font-medium rounded-full border">
+                            <span className="px-4 py-1 bg-pink-50 dark:bg-gray-700 text-pink-700 dark:text-pink-400 font-medium rounded-full border dark:border-gray-600">
                               {item.quantity}
                             </span>
                             <button
                               onClick={() => incrementQty(item._id)}
-                              className="w-8 h-8 bg-pink-100 text-pink-700 rounded-full flex items-center justify-center shadow hover:bg-pink-200 transition"
+                              className="w-8 h-8 bg-pink-100 dark:bg-gray-700 text-pink-700 dark:text-pink-400 rounded-full flex items-center justify-center shadow hover:bg-pink-200 dark:hover:bg-gray-600 transition"
                             >
                               <Plus size={16} />
                             </button>
@@ -236,7 +238,7 @@ export default function CartPage() {
                       {/* Delete Button */}
                       <button
                         onClick={() => removeItemCompletely(item._id)}
-                        className="text-red-500 hover:text-red-600 p-2 rounded-full transition"
+                        className="text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 p-2 rounded-full transition"
                         title="Remove item"
                       >
                         <Trash2 size={20} />
@@ -252,22 +254,24 @@ export default function CartPage() {
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4 }}
-              className="bg-white border border-pink-100 p-6 rounded-2xl shadow-md sticky top-20 h-fit"
+              className="bg-white dark:bg-gray-800 border border-pink-100 dark:border-gray-700 p-6 rounded-2xl shadow-md sticky top-20 h-fit"
             >
-              <h3 className="text-2xl font-bold text-pink-700 mb-6">🧾 Order Summary</h3>
+              <h3 className="text-2xl font-bold text-pink-700 dark:text-pink-400 mb-6">
+                🧾 Order Summary
+              </h3>
 
-              <div className="flex justify-between text-gray-700 mb-2">
+              <div className="flex justify-between text-gray-700 dark:text-gray-300 mb-2">
                 <span>Subtotal</span>
                 <span>PKR {total}</span>
               </div>
-              <div className="flex justify-between text-gray-500 mb-4 text-sm">
+              <div className="flex justify-between text-gray-500 dark:text-gray-400 mb-4 text-sm">
                 <span>Shipping</span>
                 <span>Calculated at checkout</span>
               </div>
 
-              <hr className="my-4" />
+              <hr className="my-4 border-gray-200 dark:border-gray-700" />
 
-              <div className="flex justify-between font-bold text-gray-900 text-lg mb-6">
+              <div className="flex justify-between font-bold text-gray-900 dark:text-gray-200 text-lg mb-6">
                 <span>Total</span>
                 <span>PKR {total}</span>
               </div>

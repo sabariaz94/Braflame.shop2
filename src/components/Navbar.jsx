@@ -42,12 +42,26 @@ const Navbar = () => {
   ];
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "white", color: "#db2777" }}>
+    <AppBar
+      position="sticky"
+      sx={{
+        backgroundColor: "var(--navbar-bg, #ffffff)",
+        color: "var(--navbar-text, #1f2937)",
+        boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+        transition: "all 0.3s ease",
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* Logo Desktop */}
           <Link href="/" className="hidden md:flex items-center mr-4">
-            <Image src="/assets/imgs/logo1.png" alt="Logo" width={100} height={100} />
+            <Image
+              src="/assets/imgs/logo1.png"
+              alt="Logo"
+              width={110}
+              height={110}
+              priority
+            />
           </Link>
 
           {/* Mobile Menu Icon */}
@@ -64,8 +78,17 @@ const Navbar = () => {
               sx={{ display: { xs: "block", md: "none" } }}
             >
               {navLinks.map((link) => (
-                <MenuItem key={link.name} onClick={handleCloseNavMenu}>
-                  <Link href={link.href} className="text-lg text-pink-600 hover:underline">
+                <MenuItem
+                  key={link.name}
+                  onClick={handleCloseNavMenu}
+                  sx={{
+                    "&:hover": { backgroundColor: "rgba(219,39,119,0.08)" },
+                  }}
+                >
+                  <Link
+                    href={link.href}
+                    className="text-base font-medium text-pink-600"
+                  >
                     {link.name}
                   </Link>
                 </MenuItem>
@@ -75,7 +98,13 @@ const Navbar = () => {
 
           {/* Logo Mobile */}
           <Link href="/" className="flex md:hidden items-center mr-4">
-            <Image src="/assets/imgs/logo1.png" alt="Logo" width={80} height={80} />
+            <Image
+              src="/assets/imgs/logo1.png"
+              alt="Logo"
+              width={90}
+              height={90}
+              priority
+            />
           </Link>
 
           {/* Desktop Nav Links */}
@@ -85,7 +114,7 @@ const Navbar = () => {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-lg text-pink-600 hover:border-b-2 border-pink-700"
+                    className="text-base font-medium text-gray-800 hover:text-pink-600 transition-colors duration-300"
                   >
                     {link.name}
                   </Link>
@@ -95,22 +124,31 @@ const Navbar = () => {
           </Box>
 
           {/* Right Icons */}
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            {/* Cart Icon */}
             <Link href="/cart" passHref>
-              <IconButton color="inherit" sx={{ position: "relative" }}>
-                <AddShoppingCartIcon sx={{ fontSize: 30 }} />
+              <IconButton
+                color="inherit"
+                sx={{
+                  position: "relative",
+                  "&:hover": { color: "#db2777" },
+                  transition: "color 0.3s ease",
+                }}
+              >
+                <AddShoppingCartIcon sx={{ fontSize: 28 }} />
                 {cartItems.length > 0 && (
                   <span
                     style={{
                       position: "absolute",
-                      top: 0,
-                      right: 0,
+                      top: 2,
+                      right: 2,
                       backgroundColor: "#db2777",
                       color: "#fff",
                       borderRadius: "50%",
                       padding: "2px 6px",
                       fontSize: "12px",
                       fontWeight: "bold",
+                      boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
                     }}
                   >
                     {cartItems.length}
@@ -119,9 +157,16 @@ const Navbar = () => {
               </IconButton>
             </Link>
 
+            {/* Profile Icon */}
             <Link href="/login" passHref>
-              <IconButton color="inherit">
-                <AccountCircleIcon sx={{ fontSize: 30 }} />
+              <IconButton
+                color="inherit"
+                sx={{
+                  "&:hover": { color: "#db2777" },
+                  transition: "color 0.3s ease",
+                }}
+              >
+                <AccountCircleIcon sx={{ fontSize: 28 }} />
               </IconButton>
             </Link>
           </Box>

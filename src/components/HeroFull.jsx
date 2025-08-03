@@ -1,8 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
@@ -12,23 +10,20 @@ import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
 
 const slides = [
-
   {
-    type: 'youtube',
-    url: 'https://www.youtube.com/embed/iMaW6lQp334?autoplay=1&mute=1&loop=1&playlist=iMaW6lQp334',
-    thumbnail: '/assets/imgs/thumb-youtube.jpg',
+    type: 'video',
+    baseUrl: "/images/video.mp4", // /public folder path
+    thumbnail: '/assets/images/hero-1.jpg',
+    caption: 'Luxury • Comfort • Confidence',
   },
 ];
 
 export default function HeroSlider() {
   const [muted, setMuted] = useState(true);
-
-  const toggleMute = () => {
-    setMuted(!muted);
-  };
+  const toggleMute = () => setMuted((prev) => !prev);
 
   return (
-    <section className="relative w-full h-screen overflow-hidden">
+    <section className="relative w-full h-[60vh] sm:h-[80vh] md:h-screen overflow-hidden">
       <Swiper
         modules={[Autoplay, Pagination, Navigation, EffectFade]}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
@@ -40,9 +35,9 @@ export default function HeroSlider() {
           el: '.custom-pagination',
           renderBullet: (index, className) => `
             <span class="${className} swiper-thumb group cursor-pointer relative">
-              <img src="${slides[index].thumbnail}" alt="${slides[index].title}" class="w-14 h-14 rounded-full border-2 border-white group-hover:border-pink-400 shadow-lg transition" />
+              <img src="${slides[index].thumbnail}" alt="${slides[index].caption}" class="w-14 h-14 rounded-full border-2 border-white group-hover:border-pink-400 shadow-lg transition" />
               <span class="absolute top-full mt-1 text-xs text-white bg-black bg-opacity-70 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">
-                ${slides[index].title}
+                ${slides[index].caption}
               </span>
             </span>
           `,
@@ -51,34 +46,26 @@ export default function HeroSlider() {
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <div className="relative w-full h-screen">
-              {/* Background */}
-              {slide.type === 'image' && (
-                <motion.div
-                  initial={{ scale: 1 }}
-                  animate={{ scale: 1.05 }}
-                  transition={{ duration: 8, ease: 'easeOut' }}
-                  className="w-full h-full absolute"
-                >
-                  <Image
-                    src={slide.url}
-                    alt={slide.caption}
-                    fill
-                    className="object-cover"
-                    priority={index === 0}
+            <div className="relative w-full h-[60vh] sm:h-[80vh] md:h-screen">
+              {/* Video */}
+              {slide.type === 'video' && (
+                <div className="relative w-full h-full bg-black">
+                  <video
+                    src={slide.baseUrl}
+                    muted={muted}
+                    autoPlay
+                    loop
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-contain sm:object-cover"
                   />
-                </motion.div>
-              )}
-
-              {slide.type === 'youtube' && (
-                <iframe
-                  src={slide.url}
-                  allow="autoplay; encrypted-media"
-                  muted={muted ? 1 : 0}
-                  allowFullScreen
-                  className="absolute w-full h-full object-cover"
-                  title={slide.title}
-                />
+                  {/* Mute / Unmute Button */}
+                  <button
+                    onClick={toggleMute}
+                    className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 bg-black/50 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded hover:bg-black/70 transition text-sm sm:text-base"
+                  >
+                    {muted ? '🔇' : '🔊'}
+                  </button>
+                </div>
               )}
 
               {/* Gradient Overlay */}
@@ -86,29 +73,19 @@ export default function HeroSlider() {
 
               {/* Caption */}
               <motion.div
-                className="absolute inset-0 flex flex-col items-center justify-center text-white z-20 text-center px-6"
+                className="absolute inset-0 flex flex-col items-center justify-center text-white z-20 text-center px-4 sm:px-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
                 <motion.h1
-                  className="text-4xl sm:text-6xl md:text-7xl font-bold mb-6 drop-shadow-lg"
+                  className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 drop-shadow-lg"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
                 >
                   {slide.caption}
                 </motion.h1>
-
-                <motion.div
-                  className="flex gap-4"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 }}
-                >
-                  
-                 
-                </motion.div>
               </motion.div>
             </div>
           </SwiperSlide>
@@ -116,8 +93,7 @@ export default function HeroSlider() {
       </Swiper>
 
       {/* Custom Pagination */}
-      <div className="custom-pagination absolute bottom-6 left-0 right-0 flex justify-center gap-4 z-30" />
+      <div className="custom-pagination absolute bottom-4 sm:bottom-6 left-0 right-0 flex justify-center gap-3 sm:gap-4 z-30" />
     </section>
   );
 }
-

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../../../../components/Navbar";
 import Footer from "../../../../components/Footer";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ProductPage({ params }) {
   const { addToCart } = useCart();
@@ -15,6 +15,7 @@ export default function ProductPage({ params }) {
   const [product, setProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
+  const [isImageOpen, setIsImageOpen] = useState(false);
   const { id } = params;
 
   useEffect(() => {
@@ -65,7 +66,8 @@ export default function ProductPage({ params }) {
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
-          className="relative w-full h-[450px] md:h-[520px] rounded-3xl overflow-hidden shadow-xl border border-gray-100"
+          className="relative w-full h-[450px] md:h-[520px] rounded-3xl overflow-hidden shadow-xl border border-gray-100 cursor-pointer"
+          onClick={() => setIsImageOpen(true)}
         >
           <Image
             src={product?.images?.[0]?.asset?.url}
@@ -82,17 +84,14 @@ export default function ProductPage({ params }) {
           transition={{ duration: 0.5 }}
           className="flex flex-col gap-6"
         >
-          {/* Title */}
           <h1 className="text-4xl font-extrabold text-gray-900 leading-tight tracking-tight">
             {product?.title}
           </h1>
 
-          {/* Price */}
           <p className="text-3xl font-bold text-pink-600">
             {product?.price} PKR
           </p>
 
-          {/* Description */}
           <p className="text-base leading-relaxed text-gray-600">
             {product?.description}
           </p>
@@ -188,13 +187,13 @@ export default function ProductPage({ params }) {
           <div className="flex flex-col sm:flex-row gap-4 mt-8">
             <button
               onClick={handleAddToCart}
-              className="bg-gradient-to-r from-pink-400 to-pink-400 hover:from-pink-500 hover:to-pink-400 text-white px-6 py-3 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition transform hover:scale-105"
+              className="bg-black hover:bg-pink-900 text-white px-6 py-3 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition transform hover:scale-105"
             >
               🛒 Add to Cart
             </button>
             <button
               onClick={() => router.push("/checkout")}
-              className="bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 px-6 py-3 rounded-xl text-lg font-semibold shadow-md hover:shadow-lg transition transform hover:scale-105"
+              className="bg-black hover:bg-pink-900 text-white border border-gray-700 px-6 py-3 rounded-xl text-lg font-semibold shadow-md hover:shadow-lg transition transform hover:scale-105"
             >
               💳 Checkout Now
             </button>
@@ -203,6 +202,39 @@ export default function ProductPage({ params }) {
       </main>
 
       <Footer />
+
+      {/* Fullscreen Image Modal */}
+      <AnimatePresence>
+        {isImageOpen && (
+          <motion.div
+            className="fixed inset-0 bg-black/90 flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsImageOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              className="relative w-[90%] h-[90%] max-w-5xl"
+            >
+              <Image
+                src={product?.images?.[0]?.asset?.url}
+                alt={product?.title}
+                fill
+                className="object-contain"
+              />
+              <button
+                className="absolute top-4 right-4 text-white text-2xl bg-black/50 p-2 rounded-full hover:bg-black"
+                onClick={() => setIsImageOpen(false)}
+              >
+                ✕
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
