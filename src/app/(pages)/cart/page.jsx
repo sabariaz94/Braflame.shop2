@@ -275,12 +275,14 @@ export default function CartPage() {
                 <span>Total</span>
                 <span>PKR {total}</span>
               </div>
-
-              <Link
-                href="/checkout"
-                className="block w-full text-center bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-semibold py-3 rounded-full transition shadow-md"
-              >
-                Proceed to Checkout
+<Link
+  href="/checkout"
+  className={`block w-full text-center font-semibold py-3 rounded-full transition shadow-md border
+    bg-white text-black hover:bg-gray-100 border-gray-300
+    dark:bg-black dark:text-white dark:hover:bg-gray-900 dark:border-gray-700
+  `}
+>
+  Proceed to Checkout
               </Link>
             </motion.div>
           </div>
