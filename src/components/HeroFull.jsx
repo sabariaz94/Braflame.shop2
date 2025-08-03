@@ -1,8 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
@@ -12,10 +10,10 @@ import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
 
 const slides = [
-
   {
     type: 'youtube',
-    url: 'https://www.youtube.com/embed/iMaW6lQp334?autoplay=1&mute=1&loop=1&playlist=iMaW6lQp334',
+    // Default mute=1 for autoplay
+    baseUrl: 'https://www.youtube.com/embed/iMaW6lQp334?autoplay=1&loop=1&playlist=iMaW6lQp334&controls=0&modestbranding=1&rel=0',
     thumbnail: '/assets/imgs/thumb-youtube.jpg',
   },
 ];
@@ -24,7 +22,7 @@ export default function HeroSlider() {
   const [muted, setMuted] = useState(true);
 
   const toggleMute = () => {
-    setMuted(!muted);
+    setMuted((prev) => !prev);
   };
 
   return (
@@ -40,9 +38,9 @@ export default function HeroSlider() {
           el: '.custom-pagination',
           renderBullet: (index, className) => `
             <span class="${className} swiper-thumb group cursor-pointer relative">
-              <img src="${slides[index].thumbnail}" alt="${slides[index].title}" class="w-14 h-14 rounded-full border-2 border-white group-hover:border-pink-400 shadow-lg transition" />
+              <img src="${slides[index].thumbnail}" alt="${slides[index].caption}" class="w-14 h-14 rounded-full border-2 border-white group-hover:border-pink-400 shadow-lg transition" />
               <span class="absolute top-full mt-1 text-xs text-white bg-black bg-opacity-70 px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">
-                ${slides[index].title}
+                ${slides[index].caption}
               </span>
             </span>
           `,
@@ -52,33 +50,24 @@ export default function HeroSlider() {
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
             <div className="relative w-full h-screen">
-              {/* Background */}
-              {slide.type === 'image' && (
-                <motion.div
-                  initial={{ scale: 1 }}
-                  animate={{ scale: 1.05 }}
-                  transition={{ duration: 8, ease: 'easeOut' }}
-                  className="w-full h-full absolute"
-                >
-                  <Image
-                    src={slide.url}
-                    alt={slide.caption}
-                    fill
-                    className="object-cover"
-                    priority={index === 0}
-                  />
-                </motion.div>
-              )}
-
+              {/* YouTube Video */}
               {slide.type === 'youtube' && (
-                <iframe
-                  src={slide.url}
-                  allow="autoplay; encrypted-media"
-                  muted={muted ? 1 : 0}
-                  allowFullScreen
-                  className="absolute w-full h-full object-cover"
-                  title={slide.title}
-                />
+                <div className="relative w-full h-full">
+                  <iframe
+                    src={`${slide.baseUrl}&mute=${muted ? 1 : 0}`}
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                    className="absolute w-full h-full object-cover"
+                    title={slide.caption}
+                  />
+                  {/* Mute / Unmute Button */}
+                  <button
+                    onClick={toggleMute}
+                    className="absolute bottom-6 right-6 z-50 bg-black/50 text-white px-4 py-2 rounded hover:bg-black/70 transition"
+                  >
+                    {muted ? '🔇 Unmute' : '🔊 Mute'}
+                  </button>
+                </div>
               )}
 
               {/* Gradient Overlay */}
@@ -99,16 +88,6 @@ export default function HeroSlider() {
                 >
                   {slide.caption}
                 </motion.h1>
-
-                <motion.div
-                  className="flex gap-4"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 }}
-                >
-                  
-                 
-                </motion.div>
               </motion.div>
             </div>
           </SwiperSlide>
@@ -120,4 +99,5 @@ export default function HeroSlider() {
     </section>
   );
 }
+
 
