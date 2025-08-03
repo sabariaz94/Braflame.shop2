@@ -92,9 +92,9 @@ export default function ContactPage() {
           </form>
 
           <div className="text-center text-sm text-gray-500 pt-4">
-            📍 123 BraFlame Avenue, Fashion City, 90210<br />
+            📍 123 BraFlame <br />
             📞 +92 333 3984117<br />
-            📧 support@brabliss.com
+            📧 braflame.shop@gmail.com
           </div>
         </div>
       </main>
