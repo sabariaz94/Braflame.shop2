@@ -46,8 +46,13 @@ export default function Footer() {
         {/* Branding & Social */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="text-center md:text-left">
+<<<<<<< HEAD
             <p className="text-2xl font-bold text-black">
               BraFlame Lingerie Studio®
+=======
+            <p className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+              BraFlame®
+>>>>>>> 370a1e322461699cf2af6e44ab14bd495873fb83
             </p>
             <p className="text-sm text-gray-500">
               Igniting creativity, protecting our brand.
@@ -77,7 +82,11 @@ export default function Footer() {
 
         <div className="border-t my-6" />
         <div className="text-center text-xs text-gray-500">
+<<<<<<< HEAD
           &copy; {new Date().getFullYear()} BraFlame Lingerie Studio®. All rights reserved.
+=======
+          &copy; {new Date().getFullYear()} BraFlame®. All rights reserved.
+>>>>>>> 370a1e322461699cf2af6e44ab14bd495873fb83
         </div>
       </div>
     </footer>

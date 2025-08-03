@@ -124,11 +124,18 @@ export default function ContactPage() {
             )}
           </form>
 
+<<<<<<< HEAD
           {/* Contact Info */}
           <div className="text-center text-sm text-gray-500 dark:text-gray-400 pt-6 space-y-1">
             <p>📍 Karachi, Pakistan</p>
             <p>📞 +92 3070154468</p>
             <p>📧 braflame.shop@gmail.com</p>
+=======
+          <div className="text-center text-sm text-gray-500 pt-4">
+            📍 123 BraFlame <br />
+            📞 +92 333 3984117<br />
+            📧 braflame.shop@gmail.com
+>>>>>>> 370a1e322461699cf2af6e44ab14bd495873fb83
           </div>
         </div>
       </main>

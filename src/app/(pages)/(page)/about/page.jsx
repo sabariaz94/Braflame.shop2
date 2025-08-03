@@ -77,11 +77,22 @@ export default function AboutPage() {
           <p className="text-gray-700 mb-6 max-w-2xl mx-auto text-base">
             Whether you're shopping for your first perfect fit or expanding your wardrobe with comfort-focused pieces. We're here for you every step of the way.
           </p>
+<<<<<<< HEAD
           <Link
   href="/products"
   className="inline-block bg-black text-white hover:bg-pink-900 px-6 py-3 rounded-full font-semibold transition-all shadow-md"
 >
   Explore Our Collection →
+=======
+        <Link
+  href="/products"
+  className={`block w-full text-center font-semibold py-3 rounded-full transition shadow-md border
+    bg-white text-black hover:bg-gray-100 border-gray-300
+    dark:bg-black dark:text-white dark:hover:bg-gray-900 dark:border-gray-700
+  `}
+>
+  Explore Our Collections
+>>>>>>> 370a1e322461699cf2af6e44ab14bd495873fb83
 </Link>
 
         </section>
