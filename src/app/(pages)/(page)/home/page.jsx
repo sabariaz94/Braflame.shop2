@@ -12,6 +12,8 @@ import { getProducts } from '../../../../sanity/lib/getProducts';
 import Benefits from "../../../../components/Benefits";
 import WhyBrabliss from '../../../../components/WhyBrabliss';
 import IntroAnimation from "../../../../components/IntroAnimation";
+import AutoScrollSection from "../../../../components/AutoScrollSection";
+
 export default function HomePage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true); // Added explicit loading state
@@ -52,7 +54,8 @@ export default function HomePage() {
             No products available.
           </div>
         )}
-
+;
+        <AutoScrollSection/>
         {/* Testimonials */}
         <TestimonialsModern />
         {/* Benefits Section */}

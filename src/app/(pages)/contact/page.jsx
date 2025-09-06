@@ -39,6 +39,7 @@ export default function ContactPage() {
 
       <main className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-10 space-y-8 transform transition-all hover:shadow-2xl">
+          
           {/* Heading */}
           <div className="text-center space-y-3">
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">
@@ -110,11 +111,12 @@ export default function ContactPage() {
 
             {/* Submit Button */}
             <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-black to-gray-900 dark:from-pink-600 dark:to-pink-500 text-white font-semibold py-3 rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-transform duration-200"
-            >
-              📩 Send Message
-            </button>
+  type="submit"
+  className="w-full bg-black hover:bg-pink-800 text-white font-semibold py-3 rounded-lg shadow-md transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+>
+  📩 Send Message
+</button>
+
 
             {/* Status Message */}
             {status && (
@@ -124,18 +126,11 @@ export default function ContactPage() {
             )}
           </form>
 
-<<<<<<< HEAD
           {/* Contact Info */}
           <div className="text-center text-sm text-gray-500 dark:text-gray-400 pt-6 space-y-1">
             <p>📍 Karachi, Pakistan</p>
-            <p>📞 +92 3070154468</p>
+            <p>📞 +92 307 0154468</p>
             <p>📧 braflame.shop@gmail.com</p>
-=======
-          <div className="text-center text-sm text-gray-500 pt-4">
-            📍 123 BraFlame <br />
-            📞 +92 333 3984117<br />
-            📧 braflame.shop@gmail.com
->>>>>>> 370a1e322461699cf2af6e44ab14bd495873fb83
           </div>
         </div>
       </main>
@@ -144,4 +139,3 @@ export default function ContactPage() {
     </>
   );
 }
-
